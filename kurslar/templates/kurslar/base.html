@@ -1,0 +1,641 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Kurslar - Zamonaviy Bilimlar Platformasi{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Umumiy stillar */
+        :root {
+            --asosiy-rang: #4e54c8;
+            --ikkinchi-rang: #8f94fb;
+            --ajralgan-rang: #ff7e5f;
+            --qora-rang: #2d3748;
+            --och-rang: #f7fafc;
+            --matn-rangi: #4a5568;
+            --oq: #ffffff;
+            --radius: 8px;
+            --soya: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Rubik', sans-serif;
+            color: var(--matn-rangi);
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--asosiy-rang);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--asosiy-rang);
+            color: var(--oq);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a3fa0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--oq);
+            color: var(--asosiy-rang);
+            border: 1px solid var(--asosiy-rang);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--asosiy-rang);
+            color: var(--oq);
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        
+        .btn-login {
+            background-color: var(--oq);
+            color: var(--asosiy-rang);
+            border: 1px solid var(--asosiy-rang);
+        }
+        
+        .btn-login:hover {
+            background-color: var(--asosiy-rang);
+            color: var(--oq);
+        }
+        
+        /* Sarlavha qismi */
+        .site-header {
+            background-color: var(--oq);
+            box-shadow: var(--soya);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: var(--qora-rang);
+        }
+        
+        .logo h1 span {
+            color: var(--asosiy-rang);
+        }
+        
+        .logo i {
+            font-size: 28px;
+            color: var(--asosiy-rang);
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        .main-nav a {
+            color: var(--matn-rangi);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .main-nav a:hover {
+            color: var(--asosiy-rang);
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Asosiy kontent */
+        .main-content {
+            padding: 40px 0;
+        }
+        
+        /* Hero qismi */
+        .hero {
+            padding: 60px 0;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .hero-text {
+            flex: 1;
+        }
+        
+        .hero-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--qora-rang);
+            line-height: 1.3;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--matn-rangi);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .hero-image {
+            flex: 1;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--soya);
+        }
+        
+        /* Kategoriyalar */
+        .categories {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--qora-rang);
+            text-align: center;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .category-card {
+            background-color: var(--oq);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--soya);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-card i {
+            font-size: 40px;
+            color: var(--asosiy-rang);
+            margin-bottom: 15px;
+        }
+        
+        .category-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--qora-rang);
+        }
+        
+        .category-card p {
+            color: var(--matn-rangi);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        /* Kurslar */
+        .popular-courses {
+            padding: 60px 0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .view-all {
+            color: var(--asosiy-rang);
+            font-weight: 500;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .course-card {
+            background-color: var(--oq);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--soya);
+            transition: transform 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .course-image {
+            position: relative;
+        }
+        
+        .course-image img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .course-price {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--asosiy-rang);
+            color: var(--oq);
+            padding: 5px 10px;
+            border-radius: var(--radius);
+            font-weight: 500;
+        }
+        
+        .course-info {
+            padding: 20px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .course-level {
+            background-color: #e2e8f0;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .course-students {
+            color: var(--matn-rangi);
+        }
+        
+        .course-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--qora-rang);
+        }
+        
+        .course-card p {
+            font-size: 14px;
+            color: var(--matn-rangi);
+            margin-bottom: 15px;
+        }
+        
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-rating {
+            color: #f59e0b;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        .site-footer {
+            background-color: var(--qora-rang);
+            color: var(--oq);
+            padding: 60px 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--oq);
+        }
+        
+        .footer-col p {
+            margin-bottom: 20px;
+            color: #a0aec0;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #a0aec0;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--oq);
+        }
+        
+        .footer-col ul li i {
+            margin-right: 8px;
+            width: 20px;
+            color: var(--asosiy-rang);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: #a0aec0;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--oq);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #2d3748;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-bottom p {
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--oq);
+        }
+        
+        /* Mobil moslashuvchanlik */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .hero-text {
+                order: 2;
+                text-align: center;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .hero-image {
+                order: 1;
+            }
+            
+            .main-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h1>Online<span>Kurslar</span></h1>
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="{% url 'kurslar' %}"><i class="fas fa-book-open"></i> Barcha Kurslar</a></li>
+                        <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Mentorlar</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Yordam</a></li>
+                        <li><a href="#" class="btn btn-login"><i class="fas fa-user"></i> Kirish</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        {% block content %}
+        <!-- Hero qismi -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h2>Kelajak kasblarini o'rganishni boshlang</h2>
+                        <p>Dunyoning istalgan joyida, istalgan vaqtda zamonaviy kasblarni o'rganing. Mutaxassislar tomonidan tayyorlangan kurslar.</p>
+                        <div class="hero-buttons">
+                            <a href="{% url 'kurslar' %}" class="btn btn-primary">Kurslarni ko'rish</a>
+                            <a href="#" class="btn btn-secondary">Bepul darslar</a>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="{% static 'images/hero-image.png' %}" alt="Online ta'lim">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kategoriyalar qismi -->
+        <section class="categories">
+            <div class="container">
+                <h2 class="section-title">Kurs Toifalari</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Dasturlash</h3>
+                        <p>Python, JavaScript, Java va boshqa dasturlash tillari</p>
+                        <a href="#" class="btn btn-small">Ko'rish <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="category-card">
+                        <i class="fas fa-paint-brush"></i>
+                        <h3>Dizayn</h3>
+                        <p>Grafik dizayn, UX/UI, 3D modellyash va boshqalar</p>
+                        <a href="#" class="btn btn-small">Ko'rish <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="category-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Marketing</h3>
+                        <p>Digital marketing, SMM, SEO va kontent marketing</p>
+                        <a href="#" class="btn btn-small">Ko'rish <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="category-card">
+                        <i class="fas fa-business-time"></i>
+                        <h3>Biznes</h3>
+                        <p>Startuplar, investitsiyalar, moliya va boshqalar</p>
+                        <a href="#" class="btn btn-small">Ko'rish <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mashhur kurslar -->
+        <section class="popular-courses">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Ommabop Kurslar</h2>
+                    <a href="{% url 'kurslar' %}" class="view-all">Barchasini ko'rish <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="courses-grid">
+                    <!-- Kurs kartalari dinamik ravishda yaratiladi -->
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="{% static 'images/course1.jpg' %}" alt="Python kursi">
+                            <span class="course-price">499 000 so'm</span>
+                        </div>
+                        <div class="course-info">
+                            <div class="course-meta">
+                                <span class="course-level">Boshlang'ich</span>
+                                <span class="course-students"><i class="fas fa-users"></i> 245</span>
+                            </div>
+                            <h3>Python dasturlash asoslari</h3>
+                            <p>Noldan boshlab Python dasturlash tilini mukammal o'rganing</p>
+                            <div class="course-footer">
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i> 4.9
+                                </div>
+                                <a href="#" class="btn btn-small">Batafsil</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ko'proq kurs kartalari -->
+                </div>
+            </div>
+        </section>
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>OnlineKurslar</h3>
+                    <p>Zamonaviy kasblarni o'rganish uchun eng yaxshi platforma. O'zingizga qulay vaqtda, istalgan joyda bilim oling.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Tez havolalar</h3>
+                    <ul>
+                        <li><a href="{% url 'kurslar' %}">Barcha kurslar</a></li>
+                        <li><a href="#">Yangiliklar</a></li>
+                        <li><a href="#">Aksiyalar</a></li>
+                        <li><a href="#">Biz haqimizda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kurs toifalari</h3>
+                    <ul>
+                        <li><a href="#">Dasturlash</a></li>
+                        <li><a href="#">Dizayn</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Biznes</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Aloqa</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@onlinekurslar.uz</li>
+                        <li><i class="fas fa-phone"></i> +998 99 999 99 99</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Toshkent shahar</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Online Kurslar. Barcha huquqlar himoyalangan.</p>
+                <div class="footer-links">
+                    <a href="#">Foydalanish shartlari</a>
+                    <a href="#">Maxfiylik siyosati</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

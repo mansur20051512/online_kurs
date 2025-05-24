@@ -1,0 +1,13 @@
+{% extends 'kurslar/base.html' %}
+{% block title %}Kurslar{% endblock %}
+{% load static %}
+{% block content %}
+<h2>Barcha Kurslar</h2>
+<ul>
+    {% for kurs in kurslar %}
+        <li>
+            <a href="{% url 'kurs_detail' kurs.slug %}">{{ kurs.nomi }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
